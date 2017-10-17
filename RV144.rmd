@@ -1,0 +1,92 @@
+---
+title: "RV144 Aids trials"
+author: "Damaris Avila"
+date: "October 17, 2017"
+output:
+  html_document: default
+---
+
+
+# Thailand Aids study
+```{r include=FALSE}
+require(tigerstats)
+```
+
+## Introduction
+
+In the late 1980s in Thailand, there was a dramatic increase in the prevalence of infection with the human immunodeficiency virus type 1 (HIV-1) in sentinel surveillance cohorts.1-3 Initially, these groups consisted of injection-drug users and commercial sex workers; they were subsequently expanded to include persons in the general population. By 1995, the overall seroprevalence of HIV-1 reached a peak of 3.7% among conscripts in the Royal Thai Army and of 12.5% among conscripts from Northern Thailand.2,4,5 The Thai Ministry of Public Health responded with an effective HIV-prevention campaign, and the number of new HIV-1 infections per year decreased from an estimated 143,000 in 1990 to 14,000 in 2007.2,4,6-9 The persistence of new infection despite these measures led public health officials to conclude that an HIV vaccine, within the context of a broader HIV-prevention program, was needed for better control of the epidemic.
+
+
+
+## Methods and data  
+
+###Study Design and Population
+This study was a community-based, randomized, multicenter, double-blind, placebo-controlled efficacy trial of the prime–boost combination of vaccines containing ALVAC-HIV (vCP1521) (Sanofi Pasteur) and AIDSVAX B/E (Global Solutions for Infectious Diseases). For details regarding the vaccines and placebo, see the Supplementary Appendix, available with the full text of this article at NEJM.org. The study was designed to evaluate two coprimary end points: the prevention of HIV-1 infection and the effect of vaccination on the early viral load after infection. The trial was conducted through facilities of the Thai Ministry of Public Health in Rayong and Chon Buri provinces. From September 2003 through December 2005, a total of 16,402 volunteers were enrolled.
+Thai men and women who were between the ages of 18 and 30 years and who were not infected with HIV were recruited from the community without regard to HIV risk (i.e., community risk). Written informed consent was obtained from all volunteers, who were required to pass a written test of understanding. Women were counseled to practice effective contraception until 3 months after the last vaccination; pregnant and breast-feeding women were excluded.
+
+###Primary End Points
+HIV-1 Infection  
+HIV-1 infection was diagnosed in 132 subjects (56 in the vaccine group and 76 in the placebo group) during 52,985 person-years of follow-up in the intention-to-treat analysis, in 86 subjects (36 in the vaccine group and 50 in the placebo group) during 36,720 person-years of follow-up in the per-protocol analysis, and in 125 subjects (51 in the vaccine group and 74 in the placebo group) during 52,985 person-years of follow-up in the modified intention-to-treat analysis. One subject in the placebo group who was identified by hospital record as being seropositive for HIV after dying from Pneumocystis jirovecii pneumonia was included in the analysis before the unblinding of the study. This diagnosis of HIV-1 infection was the only one that occurred outside planned procedures.
+We create the following data set
+
+```{r}
+groupsize = 16402
+subgp = groupsize/2
+vacine = c(subgp-51,51)
+placebo =  c(subgp-74,74)
+results = as.table(cbind(vacine,placebo))
+rownames(results) <- c("none","aids")
+
+```
+
+
+## Results
+<!-- You are to add descriptive comments to explain to the reader what the plot is showing !-->
+THe following results are both graphical and numerical. We will be comparing the two groups of people who were studied over the course of two years and three months. One group, receiving the placebo, and the other, recieving the HIV vaccine. Further descriptions and analysis will be made with each graph and numerical result. 
+
+### Graphical results
+<!--Display graphical evidence as to the effectiveness of the vaccine with explanations!-->
+```{r}
+barchartGC(results,type = "percent")
+```  
+
+
+The graph above displays that of the total number of people who were HIV negative (listed as "none") roughly 50% came from the vaccinated group, and the other 50% came from the placebo group. However this graph also shows that of the people who were HIV-positive, about 40% were vaccinated and 60% were recieving the placebo. This graph alone leads us to believe the vaccine had positive results.  
+
+### Numerical Results
+
+<!--Display numerical evidence as to the effectiveness of the vaccine with explanations !--> 
+
+```{r}
+colPerc(results)  
+rowPerc(results)
+```
+The two-way tables above further detail the graph and further explain as to how of the HIV-negative 50% are vaccinated and 50% are in the placebo group.   
+Looking at the first two way table, Of the people who were vaccinated 99.38% results as HIV negative, meaning only 0.62% resulted HIV-positive. In the placebo group, 99.1% resulted as HIV negative, meaning only 0.9% resulted HIV-positive.   
+In turn, this means out of the total 100% of people in the study, 1.52% contracted the disease over the course of the study. Furthermore, the second two way table above shows that 40.80% of 1.52% were vaccinated, while 59.20% of the 1.25% were given the placebo. This results may seem to prove the vaccine was effective and differentiated the results positively.
+
+
+
+## Inferential results
+
+<!--Display inferential evidence as to the effectiveness of the vaccine with explanations and interpretations!-->  
+*My null hypothesis is:*  
+**H~0~** : The vaccine is NOT effective in preventing HIV.  
+*My alternate hypothesis is:*  
+**H~a~** : The vaccine IS effective in preventing HIV.  
+
+The output of the chi squared test and fisher.test is as follows:
+
+```{r}
+chisqtestGC(results, graph = TRUE)
+fisher.test(results)
+```
+  
+  The Chi-square Statistic is 3.9017, resulting in a P-value just less than 0.05, of 0.048. The P-value of 0.048 means that if this study was repeated many many times and the vaccine is not effective in preventing HIV,  4.8% of the time we would have the same results as we did here. In turn, this means it would be very rare to see similar results again if the vaccine was in fact useless and with no effect.  
+  As a result, we are now able to reject the NULL HYPOTHESIS.  
+  
+  Although the P-Value is lower than the standard cut-off of 5%, it is important to note how close this P-value of 4.8% was to the 5%. Also, the number of total participants who were infected with HIV is also very small. Only 1.25% of the total participants were infected.   
+  
+## Conclusions
+<Summarise your results as to the effectiveness of the vaccine with explanations that could be understood by your mom>
+With the results and data provided, we can conlcude that the vaccine administered to the participants is in fact effective. Of the people who were infected with HIV rougly 60% were not vaccinated and 40% were vaccinated. The probability of contracted HIV is lower when vaccinated than when not. 
